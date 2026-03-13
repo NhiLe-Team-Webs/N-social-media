@@ -35,7 +35,8 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800" x-data="{ activeView: 'dashboard', isModalOpen: false }">
+<body class="bg-gray-50 text-gray-800"
+    x-data="{ activeView: 'dashboard', isModalOpen: false, isInviteModalOpen: false }">
 
     <div class="flex h-screen">
         <!-- Sidebar -->
@@ -74,8 +75,9 @@
                     <i data-lucide="bot" class="w-5 h-5 mr-3 sidebar-icon"></i>
                     Luật tự động
                 </a>
-                <a href="member.html"
-                    class="flex items-center px-3 py-2.5 text-sm font-medium text-gray-600 rounded-lg hover:bg-gray-100">
+                <a @click.prevent="activeView = 'members'" href="#"
+                    class="flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors"
+                    :class="activeView === 'members' ? 'bg-blue-50 text-blue-600' : 'text-gray-600 hover:bg-gray-100'">
                     <i data-lucide="users-2" class="w-5 h-5 mr-3 sidebar-icon"></i>
                     Thành viên
                 </a>
@@ -807,9 +809,167 @@
 
                     </div>
                 </div>
-
             </div>
-        </main>
+
+            <!-- Members View -->
+            <div x-show="activeView === 'members'" x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0 transform translate-y-4"
+                x-transition:enter-end="opacity-100 transform translate-y-0" x-cloak>
+                <header class="flex items-center justify-between mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold text-gray-900">Quản lý thành viên</h1>
+                        <p class="text-gray-500 mt-1">Mời, quản lý vai trò và quyền truy cập của đội ngũ.</p>
+                    </div>
+                    <button @click="isInviteModalOpen = true"
+                        class="flex items-center justify-center px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors">
+                        <i data-lucide="user-plus" class="w-5 h-5 mr-2"></i>
+                        Mời thành viên mới
+                    </button>
+                </header>
+
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm text-left">
+                            <thead class="text-xs text-gray-500 uppercase bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">Tên</th>
+                                    <th scope="col" class="px-6 py-3">Vai trò</th>
+                                    <th scope="col" class="px-6 py-3">Trạng thái</th>
+                                    <th scope="col" class="px-6 py-3"><span class="sr-only">Hành động</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/40?u=nhi-le"
+                                                alt="Nhi Le">
+                                            <div class="pl-3">
+                                                <div class="text-base font-semibold">Nhi Le</div>
+                                                <div class="font-normal text-gray-500">nhi.le@team.com</div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 font-semibold leading-tight text-blue-700 bg-blue-100 rounded-full">Quản
+                                            trị viên</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end space-x-2">
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="edit-3"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="trash-2"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="w-10 h-10 rounded-full" src="https://i.pravatar.cc/40?u=creator"
+                                                alt="An Nguyen">
+                                            <div class="pl-3">
+                                                <div class="text-base font-semibold">An Nguyễn</div>
+                                                <div class="font-normal text-gray-500">an.nguyen@team.com</div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">Người
+                                            soạn bài</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end space-x-2">
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="edit-3"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="trash-2"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <img class="w-10 h-10 rounded-full"
+                                                src="https://i.pravatar.cc/40?u=approver" alt="Minh Tran">
+                                            <div class="pl-3">
+                                                <div class="text-base font-semibold">Minh Trần</div>
+                                                <div class="font-normal text-gray-500">minh.tran@team.com</div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full">Người
+                                            duyệt bài</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div class="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div> Hoạt động
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end space-x-2">
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="edit-3"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="trash-2"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="bg-white hover:bg-gray-50">
+                                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div
+                                                class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center">
+                                                <i data-lucide="mail" class="w-5 h-5 text-gray-500"></i>
+                                            </div>
+                                            <div class="pl-3">
+                                                <div class="text-base font-semibold text-gray-500 italic">Chưa có
+                                                    tên</div>
+                                                <div class="font-normal text-gray-500">long.le@agency.com</div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <td class="px-6 py-4">
+                                        <span
+                                            class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full">Người
+                                            soạn bài</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center">
+                                            <div class="h-2.5 w-2.5 rounded-full bg-yellow-400 mr-2"></div> Đang chờ
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 text-right">
+                                        <div class="flex items-center justify-end space-x-2">
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="refresh-cw"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                            <button class="p-2 rounded-md hover:bg-gray-100"><i data-lucide="trash-2"
+                                                    class="w-5 h-5 text-gray-500"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    </main>
     </div>
 
     <!-- Post Composer Modal -->
@@ -929,6 +1089,66 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+
+    <!-- Invite Member Modal -->
+    <div x-show="isInviteModalOpen" x-cloak @keydown.escape.window="isInviteModalOpen = false"
+        class="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div x-show="isInviteModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+            class="fixed inset-0 modal-backdrop" @click="isInviteModalOpen = false"></div>
+
+        <div x-show="isInviteModalOpen" x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+            x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100"
+            x-transition:leave-end="opacity-0 scale-95" class="relative bg-white rounded-2xl shadow-xl w-full max-w-md">
+            <div class="p-6 border-b border-gray-200 flex items-center justify-between">
+                <h2 class="text-xl font-bold text-gray-900">Mời thành viên mới</h2>
+                <button @click="isInviteModalOpen = false" class="p-2 rounded-full hover:bg-gray-100">
+                    <i data-lucide="x" class="w-6 h-6 text-gray-500"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label for="email" class="block mb-2 text-sm font-medium text-gray-700">Địa chỉ email</label>
+                    <input type="email" id="email"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                        placeholder="ten@congty.com">
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-700">Vai trò</label>
+                    <div class="space-y-2">
+                        <label
+                            class="flex items-center p-3 w-full bg-white border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="role" value="creator"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-sm">
+                                <span class="font-semibold text-gray-800">Người soạn bài</span>
+                                <p class="text-gray-500">Có thể tạo và chỉnh sửa bài viết, nhưng cần được duyệt.</p>
+                            </span>
+                        </label>
+                        <label
+                            class="flex items-center p-3 w-full bg-white border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
+                            <input type="radio" name="role" value="approver"
+                                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-sm">
+                                <span class="font-semibold text-gray-800">Người duyệt bài</span>
+                                <p class="text-gray-500">Có thể duyệt, chỉnh sửa và đăng bài viết.</p>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 bg-gray-50 border-t border-gray-200 rounded-b-2xl flex items-center justify-end">
+                <button @click="isInviteModalOpen = false"
+                    class="w-full flex items-center justify-center px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-700 transition-colors">
+                    <i data-lucide="send" class="w-5 h-5 mr-2"></i>
+                    Gửi lời mời
+                </button>
+            </div>
         </div>
     </div>
 
